@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Gamal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --teal: #18bdbc;
+  --teal2: #04968d;
+  --dark-bg: #0b0f13;
+  --card-bg: #11161d;
+  --text: #ffffff;
+  --muted: #94a3b8;
+  --border: rgba(24,189,188,0.1);
+  --glow: rgba(24,189,188,0.15);
+}
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--dark-bg);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(24, 189, 188, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(4, 150, 141, 0.05) 0%, transparent 40%);
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(11, 15, 19, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 10%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.nav-logo span { color: var(--teal); font-weight: 700; }
+.nav-links { display: flex; gap: 2rem; }
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.nav-link:hover { color: var(--text); }
+.nav-link.active { color: var(--text); }
+
+.nav-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--teal);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.nav-menu-btn:hover { color: var(--text); }
+
+/* Hero Section */
+.hero {
+  margin-top: 70px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  min-height: calc(100vh - 70px);
+  position: relative;
+}
+
+/* Main Card */
+.card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 4rem;
+  max-width: 1000px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Image Styling */
+.photo-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1a202c;
+  border: 2px solid rgba(24, 189, 188, 0.2);
+}
+.photo-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #11161d, #1a202c);
+}
+.photo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-placeholder {
+  font-size: 4rem;
+  color: rgba(24, 189, 188, 0.1);
+}
+
+/* Info Styling */
+.info { display: flex; flex-direction: column; gap: 1rem; }
+.greeting {
+  font-size: 0.9rem;
+  color: var(--teal);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: -0.3rem;
+}
+.name {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: -0.2rem;
+}
+.job-title {
+  font-size: 1.2rem;
+  color: var(--teal);
+  font-weight: 600;
+}
+
+/* Bio Styling */
+.bio {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 400;
+  max-width: 500px;
+}
+.bio p {
+  margin-bottom: 1rem;
+}
+.bio p:last-child {
+  margin-bottom: 0;
+}
+
+/* Typing Effect */
+.typing-text {
+  min-height: 1.8em;
+  color: var(--teal);
+  font-weight: 500;
+}
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: var(--teal);
+  margin-left: 2px;
+  animation: blink 0.7s infinite;
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Buttons */
+.actions { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  background: var(--teal);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 10px 15px -3px rgba(24, 189, 188, 0.3);
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+.btn-secondary {
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
+
+.social-label {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.5px;
+}
+/* Social Icons */
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+.social-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--teal);
+  text-decoration: none;
+  transition: all 0.3s;
+  font-size: 1.1rem;
+  background: rgba(24, 189, 188, 0.05);
+  box-shadow: 0 0 20px rgba(24, 189, 188, 0.2), inset 0 0 20px rgba(24, 189, 188, 0.1);
+}
+.social-icon:hover {
+  border-color: var(--teal);
+  color: #fff;
+  transform: translateY(-5px) scale(1.1);
+  background: rgba(24, 189, 188, 0.15);
+  box-shadow: 0 0 30px rgba(24, 189, 188, 0.4), inset 0 0 20px rgba(24, 189, 188, 0.2);
+}
+
+/* Contact Section */
+#contact {
+  padding: 6rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+.contact-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 3rem;
+  max-width: 800px;
+  width: 100%;
+}
+.contact-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group.full { grid-column: span 2; }
+label { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+input, textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  outline: none;
+  transition: all 0.3s;
+}
+input:focus, textarea:focus { border-color: var(--teal); background: rgba(255, 255, 255, 0.05); }
+textarea { height: 150px; }
+.submit-btn {
+  margin-top: 1.5rem;
+  padding: 1rem 2.5rem;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  text-align: center;
+}
+.submit-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+/* Articles Slider Section */
+#articles {
+  padding: 6rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+.articles-container {
+  max-width: 1000px;
+  width: 100%;
+}
+.articles-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+  color: var(--text);
+  text-align: center;
+}
+.slider-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.articles-slider {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+}
+.articles-slider::-webkit-scrollbar {
+  height: 8px;
+}
+.articles-slider::-webkit-scrollbar-track {
+  background: rgba(24, 189, 188, 0.1);
+  border-radius: 10px;
+}
+.articles-slider::-webkit-scrollbar-thumb {
+  background: var(--teal);
+  border-radius: 10px;
+}
+.article-card {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+.article-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--teal);
+  box-shadow: 0 15px 30px rgba(24, 189, 188, 0.2);
+}
+.article-card:hover .article-name {
+  color: var(--teal);
+}
+.article-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.article-info {
+  padding: 1.5rem;
+}
+.article-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+.article-link {
+  display: inline-block;
+  color: var(--teal);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.article-link:hover { color: var(--text); }
+
+.slider-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.slider-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  background: transparent;
+  color: var(--teal);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider-btn:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  padding: 3rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  .card { grid-template-columns: 1fr; padding: 2rem; gap: 2rem; text-align: center; }
+  .name { font-size: 2.5rem; }
+  .bio { margin: 0 auto; }
+  .actions, .social-links { justify-content: center; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: span 1; }
+  nav { padding: 0 5%; }
+  .nav-links { display: none; }
+  .nav-menu-btn { display: block; }
+  .btn-primary { width: 100%; }
+  .article-card { flex: 0 0 280px; }
+}
+
+@media (max-width: 600px) {
+  .actions { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; }
+  .article-card { flex: 0 0 250px; }
+  .articles-title { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">محمد <span>جمال</span></div>
+  <button class="nav-menu-btn" id="menuBtn">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="nav-links">
+    <a href="#" class="nav-link active">الرئيسية</a>
+    <a href="#contact" class="nav-link">تواصل معي</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="card">
+    <div class="photo-container">
+      <div class="photo-inner">
+        <img src="photo.webp" alt="محمد جمال">
+      </div>
+    </div>
+
+    <div class="info">
+      <div class="greeting">أهلاً بيك، أنا</div>
+      <div class="name">محمد جمال</div>
+      <div class="job-title">مهندس، صانع محتوى ومؤسس SLI Community</div>
+      
+      <div class="bio">
+        <p>أنا محمد.. مهندس وصانع محتوى، مهتم بجانب شغلي إني أشارك محتوى يساعد الشباب إنهم يفكرو بشكل أحسن و يتعلمو بشكل مختلف يفيدهم بجد و يطور شخصيتهم.</p>
+        
+        <p>بسبب وقت بنلاحظ فيه إن السوشيال ميديا و لينكدإن بقو قادرين يأثرو على الشباب بشكل سلبي و توافر المعلومات بشكل مهول إتسبب في توهان أكتر خلانا نواجه صعوبة إننا نتعلم أو نعرف إيه المطلوب مننا كطلبة جامعة أو حديثي تخرج.</p>
+        
+        <p style="color: var(--teal);"><span style="color: var(--teal);">قررت في 2020 إني أبدا مجتمع SLI و أوفر برنامج كامل للشباب لمدة 4 شهور مهمتي فيه إني أساعدهم يكونو بيتعلمو كل الـ Soft Skills اللي السوق محتاجها بشكل عملي وسط مجتمع داعم و مختلف و يكون زي حجر أساس فيه كل المهارات بشكل متكامل و يقدر الطالب يفهمه ويطبقه في محيطه وفي الشغل بعدين. </span><span class="typing-text" id="typingText"></span><span class="typing-cursor"></span></p>
+      </div>
+      
+      <div class="actions">
+        <a href="#contact" class="btn-primary">تواصل معي</a>
+        <a href="https://www.slicommunity.page" target="_blank" class="btn-secondary">تابع منصة SLI Community</a>
+      </div>
+
+      <div class="social-label">تابعني على منصات التواصل الإجتماعي</div>
+      <div class="social-links">
+        <a href="https://www.youtube.com/@slicommunity" target="_blank" class="social-icon">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://www.instagram.com/by_gemy" target="_blank" class="social-icon">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/mohamedgamalattia/" target="_blank" class="social-icon">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-card">
+    <div class="contact-title">ابعتلي رسالة</div>
+
+    <div data-fs-success style="display:none; padding:1rem 1.2rem; border-radius:12px; background:rgba(24,189,188,0.08); border:1px solid rgba(24,189,188,0.28); color:var(--teal); font-size:0.92rem; font-weight:600; margin-bottom:1rem;">
+      &#x2713; تم إرسال رسالتك بنجاح! هرد عليك في أقرب وقت.
+    </div>
+    <div data-fs-error style="display:none; padding:1rem 1.2rem; border-radius:12px; background:rgba(255,80,80,0.08); border:1px solid rgba(255,80,80,0.25); color:#ff5050; font-size:0.92rem; font-weight:600; margin-bottom:1rem;">
+      حصل خطأ، حاول تاني من فضلك.
+    </div>
+
+    <form id="contact-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fname">الاسم</label>
+          <input type="text" id="fname" name="name" placeholder="اسمك" data-fs-field required>
+          <span data-fs-error="name" style="color:#ff5050; font-size:0.78rem;"></span>
+        </div>
+        <div class="form-group">
+          <label for="femail">البريد الإلكتروني</label>
+          <input type="email" id="femail" name="email" placeholder="email@example.com" data-fs-field required>
+          <span data-fs-error="email" style="color:#ff5050; font-size:0.78rem;"></span>
+        </div>
+        <div class="form-group full">
+          <label for="fsubject">الموضوع</label>
+          <input type="text" id="fsubject" name="subject" placeholder="موضوع رسالتك">
+        </div>
+        <div class="form-group full">
+          <label for="fmessage">الرسالة</label>
+          <textarea id="fmessage" name="message" placeholder="اكتب رسالتك هنا..." data-fs-field required></textarea>
+          <span data-fs-error="message" style="color:#ff5050; font-size:0.78rem;"></span>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn" data-fs-submit-btn>
+        إرسال الرسالة
+      </button>
+    </form>
+  </div>
+</section>
+
+<section id="articles">
+  <div class="articles-container">
+    <h2 class="articles-title">مقالاتي الأخيرة</h2>
+    <div class="slider-wrapper">
+      <div class="articles-slider" id="articlesSlider">
+        <a href="https://echosofthoughts.blogspot.com/2025/01/hiii.html" target="_blank" class="article-card">
+          <img src="images/article1.jpg" alt="الثبات .. خرافة؟" class="article-image">
+          <div class="article-info">
+            <div class="article-name">الثبات .. خرافة؟ وأثره على النفس</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/02/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article2.jpg" alt="التسويق الشخصي" class="article-image">
+          <div class="article-info">
+            <div class="article-name">التسويق الشخصي، قوته وأثره .. واهمية الشخصية قبل المهارات</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/03/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article3.jpg" alt="الإنصاف" class="article-image">
+          <div class="article-info">
+            <div class="article-name">الإنصاف ما بين المعرفة والتطبيق، واهميته في المجتمع</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/04/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article4.jpg" alt="الإستحقاقية" class="article-image">
+          <div class="article-info">
+            <div class="article-name">الإستحقاقية الغير مبررة، و بعض المسببات ومغالطات التفكير!</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/04/blog-post_19.html" target="_blank" class="article-card">
+          <img src="images/article5.jpg" alt="الإنسان" class="article-image">
+          <div class="article-info">
+            <div class="article-name">الإنسان.. مجهود تقويمه وتحسينه لسلوكه واثر الاخلاق عليه</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/07/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article6.jpg" alt="الأفكار المجتمعية" class="article-image">
+          <div class="article-info">
+            <div class="article-name">الأفكار المجتمعية المغلوطة وكيف تتحول لأصنام ومهلكات للإنسان</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/08/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article7.jpg" alt="المروءة" class="article-image">
+          <div class="article-info">
+            <div class="article-name">المروءة! العظمة، القوة و التميز و النجاح بالتعريف الصحيح</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2025/12/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article8.jpg" alt="تنمر الأطفال" class="article-image">
+          <div class="article-info">
+            <div class="article-name">تنمر الأطفال، و دورك امام سرطان لا بد ان تواجهه مبكرا</div>
+          </div>
+        </a>
+        <a href="https://echosofthoughts.blogspot.com/2026/03/blog-post.html" target="_blank" class="article-card">
+          <img src="images/article9.jpg" alt="عظمة العطاء" class="article-image">
+          <div class="article-info">
+            <div class="article-name">عظمة العطاء.. تأثير العطاء على صحة مشاعرك و قلبك، كيف يمكن أن يكون العطاء علاجاً لآلام نفسية؟</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="slider-nav">
+      <button class="slider-btn" id="prevBtn">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <button class="slider-btn" id="nextBtn">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 · محمد جمال · جميع الحقوق محفوظة</footer>
+
+<script>
+// Typing Effect
+const typingText = document.getElementById('typingText');
+const fullText = "لو مهتم تعرف أكتر زور موقع SLI Community أو تواصل معايا و هجاوبك على كل أسئلتك :)";
+let index = 0;
+function typeText() {
+  if (index < fullText.length) {
+    typingText.textContent += fullText.charAt(index);
+    index++;
+    setTimeout(typeText, 30);
+  }
+}
+document.addEventListener('DOMContentLoaded', () => { typeText(); });
+
+// Articles Slider - Manual Control Only
+const slider = document.getElementById('articlesSlider');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+prevBtn.addEventListener('click', () => {
+  slider.scrollBy({ left: -320, behavior: 'smooth' });
+});
+
+nextBtn.addEventListener('click', () => {
+  slider.scrollBy({ left: 320, behavior: 'smooth' });
+});
+
+// Menu Button for Mobile
+const menuBtn = document.getElementById('menuBtn');
+menuBtn.addEventListener('click', () => {
+  const navLinks = document.querySelector('.nav-links');
+  navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+});
+</script>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'xnjokzqd' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
