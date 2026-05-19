@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <link rel="icon" href="favicon.png" type="image/png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mohamed Gamal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="icon" href="favicon.png" type="image/png">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -451,6 +451,24 @@ textarea { height: 150px; }
   transform: scale(1.05);
 }
 
+/* الستايل الجديد المضاف للمكتبة والـ Pop-up الشيك */
+.product-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--teal) !important;
+  box-shadow: 0 15px 30px rgba(24, 189, 188, 0.15);
+}
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(11, 15, 19, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
 footer {
   text-align: center;
   padding: 3rem;
@@ -652,9 +670,62 @@ footer {
         <i class="fa-solid fa-arrow-left"></i>
       </a>
     </div>
-
   </div>
 </section>
+
+<section id="products" style="padding: 6rem 2rem; display: flex; justify-content: center; background: rgba(24, 189, 188, 0.02); border-top: 1px solid var(--border);">
+  <div style="max-width: 1000px; width: 100%;">
+    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 3rem; color: var(--text); text-align: center;">المكتبة الرقمية والكتب الحصرية</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+      
+      <div class="product-card" style="background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s;">
+        <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; flex: 1;">
+          <div style="width: 50px; height: 50px; background: rgba(24, 189, 188, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--teal); font-size: 1.5rem;">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text);">كتيب الدليل العملي للمهارات الحياتية</h3>
+          <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.6;">مانيوال شامل يحتوي على أدوات وتطبيقات عملية تساعدك على تنظيم وقتك وتطوير شخصيتك واكتساب المهارات الأساسية لسوق العمل.</p>
+          <button onclick="openDownloadModal('manual-v1', 'كتيب الدليل العملي للمهارات الحياتية')" style="margin-top: auto; padding: 0.8rem; background: var(--teal); color: #fff; border: none; border-radius: 10px; font-family: 'Cairo', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.3s; text-align: center;">
+            تحميل مجاني (PDF)
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="downloadModal" class="modal-overlay">
+  <div style="background: var(--card-bg); border: 1px solid rgba(24, 189, 188, 0.2); border-radius: 24px; padding: 2.5rem; max-width: 500px; width: 100%; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+    <button onclick="closeDownloadModal()" style="position: absolute; top: 1.2rem; left: 1.2rem; background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+    
+    <h3 id="modalProductTitle" style="font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; text-align: center;">تحميل المنتج الرقمي</h3>
+    <p style="font-size: 0.85rem; color: var(--teal); text-align: center; margin-bottom: 2rem;">ادخل بياناتك وسيصلك رابط التحميل المباشر فوراً على إيميلك</p>
+    
+    <form id="product-form" onsubmit="handleProductSubmit(event)">
+      <input type="hidden" id="modalProductId" name="productId">
+      <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+        <div class="form-group">
+          <label>الاسم بالكامل</label>
+          <input type="text" id="pname" name="name" placeholder="اسمك الكريم" required style="width:100%;">
+        </div>
+        <div class="form-group">
+          <label>رقم التليفون</label>
+          <input type="tel" id="pphone" name="phone" placeholder="01xxxxxxxxx" required style="width:100%;">
+        </div>
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="pemail" name="email" placeholder="name@example.com" required style="width:100%;">
+        </div>
+        <button type="submit" id="pSubmitBtn" style="padding: 1rem; background: var(--teal); color: #fff; border: none; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 0.5rem;">
+          تأكيد وإرسال رابط التحميل
+        </button>
+        <div id="pMessage" style="display:none; text-align:center; font-size:0.9rem; font-weight:600; padding:0.5rem; border-radius:8px;"></div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <footer>© 2026 · محمد جمال · جميع الحقوق محفوظة</footer>
 
@@ -691,6 +762,61 @@ menuBtn.addEventListener('click', () => {
   const navLinks = document.querySelector('.nav-links');
   navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
 });
+
+// وظائف التحكم بالـ Modal والـ Pop-up الجديد للمنتجات الرقمية
+function openDownloadModal(productId, productTitle) {
+  document.getElementById('modalProductId').value = productId;
+  document.getElementById('modalProductTitle').textContent = productTitle;
+  document.getElementById('downloadModal').style.display = 'flex';
+  document.getElementById('pMessage').style.display = 'none';
+  document.getElementById('product-form').reset();
+}
+
+function closeDownloadModal() {
+  document.getElementById('downloadModal').style.display = 'none';
+}
+
+async function handleProductSubmit(e) {
+  e.preventDefault();
+  const submitBtn = document.getElementById('pSubmitBtn');
+  const msgDiv = document.getElementById('pMessage');
+  
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'جاري التحقق وإرسال الإيميل...';
+  
+  const formData = {
+    productId: document.getElementById('modalProductId').value,
+    name: document.getElementById('pname').value,
+    phone: document.getElementById('pphone').value,
+    email: document.getElementById('pemail').value
+  };
+
+  try {
+    const response = await fetch('/api/download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+    
+    if (response.ok) {
+      msgDiv.style.display = 'block';
+      msgDiv.style.background = 'rgba(24, 189, 188, 0.1)';
+      msgDiv.style.color = 'var(--teal)';
+      msgDiv.textContent = '✓ تم إرسال كتابك بنجاح! تفقد بريدك الإلكتروني الآن.';
+      submitBtn.textContent = 'تم الإرسال بنجاح!';
+      setTimeout(closeDownloadModal, 4000);
+    } else {
+      throw new Error('فشل الإرسال');
+    }
+  } catch (error) {
+    msgDiv.style.display = 'block';
+    msgDiv.style.background = 'rgba(255, 80, 80, 0.1)';
+    msgDiv.style.color = '#ff5050';
+    msgDiv.textContent = 'حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى.';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'تأكيد وإرسال رابط التحميل';
+  }
+}
 </script>
 
 <script>
